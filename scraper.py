@@ -162,7 +162,16 @@ def run_live_scraper(url=TARGET_URL, headless=True, interval_seconds=3):
     print(f"URL: {url}\n")
     
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=headless)
+        try:
+            browser = p.chromium.launch(headless=headless)
+        except Exception as e:
+            if "Executable doesn't exist" in str(e) or "playwright install" in str(e):
+                print("⚠️ Chromium no encontrado. Instalando navegador automáticamente...")
+                import subprocess
+                subprocess.run(["playwright", "install", "chromium"], check=True)
+                browser = p.chromium.launch(headless=headless)
+            else:
+                raise e
         context = browser.new_context(viewport={"width": 1280, "height": 720})
         page = context.new_page()
         
