@@ -1,0 +1,16 @@
+# Entorno y credenciales
+.env
+
+# Archivos de base de datos local SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Python y caché
+__pycache__/
+*.pyc
+*.pyo
+
+# IDEs
+.vscode/
+.idea/
